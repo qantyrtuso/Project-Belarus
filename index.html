@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <!-- Эта строка делает сайт адаптивным для телефонов -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Belarus: Discover the Beauty</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* --- CSS ПЕРЕМЕННЫЕ И БАЗОВЫЕ СТИЛИ --- */
+        :root {
+            --primary-red: #d22730;
+            --primary-green: #008c45;
+            --bg-light: #f8f9fa;
+            --text-dark: #2c3e50;
+            --text-light: #ffffff;
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* ГЛОБАЛЬНОЕ ИСПРАВЛЕНИЕ: запрещаем горизонтальную прокрутку */
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* --- НАВИГАЦИЯ --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: var(--transition);
+            box-sizing: border-box;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--primary-red);
+            letter-spacing: 2px;
+        }
+
+        .logo span { color: var(--primary-green); }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 600;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--primary-green);
+            transition: var(--transition);
+        }
+
+        nav ul li a:hover::after { width: 100%; }
+        nav ul li a:hover { color: var(--primary-green); }
+
+        /* --- ГЛАВНЫЙ ЭКРАН (HERO) --- */
+        #home {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(210, 39, 48, 0.8), rgba(0, 140, 69, 0.8)), url('https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Minsk_National_Library.jpg/1600px-Minsk_National_Library.jpg') center/cover;
+            color: var(--text-light);
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            animation: slideUp 1s ease-out;
+            width: 100%;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+            word-wrap: break-word; /* Чтобы длинные слова переносились */
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background: var(--primary-green);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0, 140, 69, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 25px rgba(0, 140, 69, 0.5);
+            background: var(--primary-red);
+        }
+
+        /* --- ОБЩИЕ СТИЛИ СЕКЦИЙ --- */
+        section {
+            padding: 100px 5%;
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        /* ИСПРАВЛЕНО: убрано смещение left: 50%, теперь центрируется безопасно */
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--text-dark);
+            position: relative;
+            display: block;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+            padding-bottom: 15px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 15%;
+            width: 70%;
+            height: 4px;
+            background: var(--primary-red);
+            border-radius: 2px;
+        }
+
+        /* --- ГЕОГРАФИЯ --- */
+        #geography {
+            background: white;
+        }
+
+        .regions-grid {
+            display: grid;
+            /* ИСПРАВЛЕНО: min(100%, 300px) не даст карточке вылезти за экран */
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .region-card {
+            background: var(--bg-light);
+            border-radius: 15px;
+            text-align: center;
+            transition: var(--transition);
+            border-bottom: 4px solid var(--primary-red);
+            cursor: pointer;
+            overflow: hidden; 
+            padding: 0; 
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .region-content {
+            padding: 2rem 2rem 1rem 2rem; 
+        }
+
+        .region-card h3 {
+            color: var(--primary-green);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .region-card img {
+            width: 100%;
+            height: 180px; 
+            object-fit: cover; 
+            transition: transform 0.5s ease;
+            margin-top: auto; 
+            display: block;
+        }
+
+        .region-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            background: white;
+        }
+
+        .region-card:hover img {
+            transform: scale(1.1); 
+        }
+
+        /* --- МЕСТА ДЛЯ ПОСЕЩЕНИЯ --- */
+        #places {
+            background: var(--bg-light);
+        }
+
+        .places-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .place-card {
+            flex: 1 1 100%; /* На мобильных занимает 100% ширины */
+            max-width: 400px; /* Но не растягивается слишком сильно */
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            transition: var(--transition);
+        }
+
+        .place-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .place-img {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            transition: var(--transition);
+        }
+
+        .place-card:hover .place-img {
+            transform: scale(1.05);
+        }
+
+        .place-info {
+            padding: 1.5rem;
+        }
+
+        .place-info h3 {
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        /* --- ВИКТОРИНА (TRIVIA) --- */
+        #trivia {
+            background: linear-gradient(135deg, var(--primary-red), var(--primary-green));
+            color: white;
+            text-align: center;
+        }
+
+        #trivia .section-title { color: white; }
+        #trivia .section-title::after { background: white; }
+
+        .quiz-box {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 3rem;
+            border-radius: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+            border: 1px solid rgba(255,255,255,0.3);
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .quiz-box h3 {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            word-wrap: break-word;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .quiz-btn {
+            padding: 15px;
+            border: 2px solid white;
+            background: transparent;
+            color: white;
+            font-size: 1.1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+            width: 100%;
+        }
+
+        .quiz-btn:hover {
+            background: white;
+            color: var(--primary-green);
+        }
+
+        .quiz-btn.correct {
+            background: #4CAF50;
+            border-color: #4CAF50;
+            color: white;
+        }
+
+        .quiz-btn.wrong {
+            background: #f44336;
+            border-color: #f44336;
+            color: white;
+        }
+
+        #quiz-result {
+            margin-top: 1.5rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            min-height: 30px;
+        }
+
+        /* --- ФУТЕР --- */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: var(--text-dark);
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
+        }
+
+        /* --- АНИМАЦИИ --- */
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* =========================================
+           АДАПТИВНОСТЬ ДЛЯ ТЕЛЕФОНОВ И ПЛАНШЕТОВ
+           ========================================= */
+        @media (max-width: 768px) {
+            .hero-content h1 { 
+                font-size: 2rem; 
+                letter-spacing: 1px; /* Уменьшаем расстояние между буквами */
+                margin-top: 60px; 
+            }
+            .hero-content p { 
+                font-size: 1rem; 
+            }
+            
+            section { 
+                padding: 50px 15px; /* Фиксированные отступы по бокам */
+            }
+            .section-title { 
+                font-size: 1.6rem; 
+            }
+
+            nav {
+                flex-direction: column;
+                padding: 10px 15px;
+            }
+            .logo {
+                margin-bottom: 8px;
+                font-size: 1.2rem;
+            }
+            nav ul {
+                gap: 10px;
+                font-size: 0.8rem;
+            }
+            nav ul li a::after {
+                display: none; 
+            }
+
+            .quiz-box {
+                padding: 1.5rem;
+            }
+            .quiz-box h3 {
+                font-size: 1.2rem;
+            }
+            .quiz-btn {
+                padding: 12px;
+                font-size: 0.95rem;
+            }
+            .region-card img { 
+                height: 160px; 
+            }
+            .place-img { 
+                height: 180px; 
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Навигация -->
+    <nav>
+        <div class="logo">BEL<span>ARUS</span></div>
+        <ul>
+            <li><a href="#home">Главная</a></li>
+            <li><a href="#geography">География</a></li>
+            <li><a href="#places">Места</a></li>
+            <li><a href="#trivia">Викторина</a></li>
+        </ul>
+    </nav>
+
+    <!-- Главный экран -->
+    <section id="home">
+        <div class="hero-content">
+            <h1>Добро пожаловать в Беларусь</h1>
+            <p>Страна с богатой историей, потрясающей природой и гостеприимными людьми. Исследуйте её вместе с нами.</p>
+            <a href="#geography" class="btn">Узнать больше</a>
+        </div>
+    </section>
+
+    <!-- География -->
+    <section id="geography">
+        <h2 class="section-title reveal">Регионы Беларуси</h2>
+        <div class="regions-grid">
+            
+            <div class="region-card reveal">
+                <div class="region-content">
+                    <h3>Минск</h3>
+                    <p>Столица и крупнейший город, культурный и экономический центр.</p>
+                </div>
+                <img src="https://ghu.by/wp-content/uploads/2024/09/nep.jpg" alt="Минск">
+            </div>
+            
+            <div class="region-card reveal">
+                <div class="region-content">
+                    <h3>Брест</h3>
+                    <p>Город-герой, известный своей легендарной крепостью.</p>
+                </div>
+                <img src="https://content.onliner.by/news/1200x5616/527d6a5b14eba46bdd49358cff0c892b.jpg" alt="Брест">
+            </div>
+
+            <div class="region-card reveal">
+                <div class="region-content">
+                    <h3>Витебск</h3>
+                    <p>Культурная столица, родина Марка Шагала.</p>
+                </div>
+                <img src="https://travelask.ru/system/images/files/000/083/044/wysiwyg_jpg/%D0%9A%D1%80%D0%B0%D1%81%D0%B8%D0%B2%D1%8B%D0%B9_%D0%B2%D0%B8%D0%B4_%D0%BD%D0%B0_%D0%92%D0%B8%D1%82%D0%B5%D0%B1%D1%81%D0%BA.jpg?1486419388" alt="Витебск">
+            </div>
+
+            <div class="region-card reveal">
+                <div class="region-content">
+                    <h3>Гомель</h3>
+                    <p>Крупный промышленный и культурный центр на юго-востоке.</p>
+                </div>
+                <img src="https://images.putevka.com/blog_img/602_2509250831308.jpg" alt="Гомель">
+            </div>
+
+            <div class="region-card reveal">
+                <div class="region-content">
+                    <h3>Гродно</h3>
+                    <p>Город с богатым историческим наследием и архитектурой.</p>
+                </div>
+                <img src="https://images.putevka.com/blog_img/599_2509240747165.jpg" alt="Гродно">
+            </div>
+
+            <div class="region-card reveal">
+                <div class="region-content">
+                    <h3>Могилев</h3>
+                    <p>Город на Днепре с многовековой историей.</p>
+                </div>
+                <img src="https://34travel.me/media/upload/images/2018/september/mogilev-new/IMG_9833.jpg" alt="Могилев">
+            </div>
+        </div>
+    </section>
+
+    <!-- Места для посещения -->
+    <section id="places">
+        <h2 class="section-title reveal">Достопримечательности</h2>
+        <div class="places-container">
+            <div class="place-card reveal">
+                <div class="place-img" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Mir_Castle_2012.jpg/800px-Mir_Castle_2012.jpg');"></div>
+                <div class="place-info">
+                    <h3>Мирский замок</h3>
+                    <p>Величественный замок XVI века, включенный в список Всемирного наследия ЮНЕСКО.</p>
+                </div>
+            </div>
+            <div class="place-card reveal">
+                <div class="place-img" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Belovezhskaya_Pushcha_National_Park.jpg/800px-Belovezhskaya_Pushcha_National_Park.jpg');"></div>
+                <div class="place-info">
+                    <h3>Беловежская пуща</h3>
+                    <p>Один из последних и крупнейших древних лесов Европы, дом для зубров.</p>
+                </div>
+            </div>
+            <div class="place-card reveal">
+                <div class="place-img" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Nesvizh_Castle_2012.jpg/800px-Nesvizh_Castle_2012.jpg');"></div>
+                <div class="place-info">
+                    <h3>Несвижский замок</h3>
+                    <p>Родовое имение князей Радзивиллов, также являющееся объектом ЮНЕСКО.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Викторина -->
+    <section id="trivia">
+        <h2 class="section-title reveal">Проверь свои знания</h2>
+        <div class="quiz-box reveal">
+            <h3>Какой город является столицей Беларуси?</h3>
+            <div class="quiz-options">
+                <button class="quiz-btn" onclick="checkAnswer(this, false)">Брест</button>
+                <button class="quiz-btn" onclick="checkAnswer(this, true)">Минск</button>
+                <button class="quiz-btn" onclick="checkAnswer(this, false)">Гомель</button>
+                <button class="quiz-btn" onclick="checkAnswer(this, false)">Витебск</button>
+            </div>
+            <div id="quiz-result"></div>
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer>
+        <p>&copy; 2026 Проект "Сайт о Беларуси". Создано для учебных целей (Lesson 8).</p>
+    </footer>
+
+    <!-- JavaScript для анимаций и викторины -->
+    <script>
+        function checkAnswer(button, isCorrect) {
+            const resultDiv = document.getElementById('quiz-result');
+            const allButtons = document.querySelectorAll('.quiz-btn');
+            
+            allButtons.forEach(btn => {
+                btn.classList.remove('correct', 'wrong');
+                btn.disabled = false;
+            });
+
+            if (isCorrect) {
+                button.classList.add('correct');
+                resultDiv.innerHTML = "✅ Правильно! Минск — столица Беларуси.";
+                resultDiv.style.color = "#ffffff"; 
+                allButtons.forEach(btn => btn.disabled = true); 
+            } else {
+                button.classList.add('wrong');
+                resultDiv.innerHTML = "❌ Неправильно. Попробуйте еще раз!";
+                resultDiv.style.color = "#ffffff"; 
+            }
+        }
+
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealOnScroll = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); 
+                }
+            });
+        }, { threshold: 0.15 });
+
+        revealElements.forEach(el => revealOnScroll.observe(el));
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
